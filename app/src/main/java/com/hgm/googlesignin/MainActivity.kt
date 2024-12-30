@@ -40,10 +40,10 @@ class MainActivity : ComponentActivity() {
                         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                               val context = LocalContext.current
                               val scope = rememberCoroutineScope()
+                              val navController = rememberNavController()
                               val googleSignInManager = remember {
                                     GoogleSignInManager(context as ComponentActivity)
                               }
-                              val navController = rememberNavController()
                               NavHost(
                                     navController = navController,
                                     startDestination = SignInRoute,
@@ -59,8 +59,7 @@ class MainActivity : ComponentActivity() {
                                                 OutlinedButton(
                                                       onClick = {
                                                             scope.launch {
-                                                                  val result =
-                                                                        googleSignInManager.signIn()
+                                                                  val result = googleSignInManager.signIn()
                                                                   val text = when (result) {
                                                                         is SignInResult.Cancelled -> "Cancelled"
                                                                         is SignInResult.ErrorTypeCredentials -> "ErrorTypeCredentials"
