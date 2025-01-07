@@ -9,6 +9,7 @@ import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.credentials.exceptions.NoCredentialException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 
 /**
@@ -52,14 +53,20 @@ class GoogleSignInManager(
        * 构建凭证请求
        **/
       private suspend fun buildCredentialRequest(): GetCredentialResponse {
+            // 底部样式
+            val getGoogleIdOption = GetGoogleIdOption.Builder()
+                  .setFilterByAuthorizedAccounts(false)
+                  .setServerClientId(activity.getString(R.string.google_client_id))
+                  .setAutoSelectEnabled(false)
+                  .build()
+
+            // 居中样式
+            val getSignInWithGoogleOption = GetSignInWithGoogleOption.Builder(activity.getString(R.string.google_client_id))
+                  .build()
+
+
             val request = GetCredentialRequest.Builder()
-                  .addCredentialOption(
-                        GetGoogleIdOption.Builder()
-                              .setFilterByAuthorizedAccounts(false)
-                              .setServerClientId(activity.getString(R.string.google_client_id))
-                              .setAutoSelectEnabled(false)
-                              .build()
-                  )
+                  .addCredentialOption(getGoogleIdOption)
                   .build()
 
             return credentialManager.getCredential(

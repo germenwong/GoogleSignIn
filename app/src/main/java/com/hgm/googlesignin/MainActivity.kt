@@ -59,22 +59,30 @@ class MainActivity : ComponentActivity() {
                                                 OutlinedButton(
                                                       onClick = {
                                                             scope.launch {
-                                                                  val result = googleSignInManager.signIn()
-                                                                  val text = when (result) {
-                                                                        is SignInResult.Cancelled -> "Cancelled"
-                                                                        is SignInResult.ErrorTypeCredentials -> "ErrorTypeCredentials"
-                                                                        is SignInResult.Failure -> "Failure"
-                                                                        is SignInResult.NoCredentials -> "NoCredentials"
+                                                                  Log.e("GoogleSignIn", "Start...")
+                                                                  when (val result = googleSignInManager.signIn()) {
+                                                                        is SignInResult.Cancelled -> {
+                                                                              Log.e("GoogleSignIn", "Cancelled...")
+                                                                        }
+                                                                        is SignInResult.ErrorTypeCredentials ->{
+                                                                              Log.e("GoogleSignIn", "ErrorTypeCredentials...")
+                                                                        }
+                                                                        is SignInResult.Failure -> {
+                                                                              Log.e("GoogleSignIn", "Failure...")
+                                                                        }
+                                                                        is SignInResult.NoCredentials -> {
+                                                                              Log.e("GoogleSignIn", "NoCredentials...")
+                                                                        }
                                                                         is SignInResult.Success -> {
                                                                               navController.navigate(DetailRoute){
                                                                                     popUpTo<SignInRoute> {
                                                                                           inclusive = true
                                                                                     }
                                                                               }
-                                                                              "Success --> ${result.id} - ${result.username} - ${result.avatarUrl}"
+                                                                              Log.e("GoogleSignIn", "Success...")
                                                                         }
                                                                   }
-                                                                  Log.e("GoogleSignIn", text)
+                                                                  Log.e("GoogleSignIn", "End...")
                                                             }
                                                       }
                                                 ) {
